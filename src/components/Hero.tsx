@@ -23,7 +23,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative isolate flex min-h-screen items-center overflow-hidden bg-bg-deep pt-24"
+      className="relative isolate flex min-h-screen items-center overflow-hidden bg-bg-deep pt-24 pb-40 md:pb-48"
     >
       {/* Background layers */}
       <div className="absolute inset-0">

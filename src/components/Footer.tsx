@@ -1,4 +1,4 @@
-import { Github, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Github, Instagram, Linkedin } from "lucide-react";
 import { ArcReactor } from "./ArcReactor";
 
 const NAV = ["Work", "Services", "About", "Process", "Contact"];
@@ -32,7 +32,6 @@ export function Footer() {
 
           <div className="flex items-center gap-4 text-text-muted">
             {[
-              { Icon: Twitter, href: "#", label: "Twitter" },
               { Icon: Instagram, href: "#", label: "Instagram" },
               { Icon: Linkedin, href: "#", label: "LinkedIn" },
               { Icon: Github, href: "#", label: "GitHub" },

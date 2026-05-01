@@ -1,33 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
-
-const PROJECTS = [
-  {
-    title: "Sunrise Campus Portal",
-    desc: "Full college web system, admissions + events + departments.",
-    tag: "EDUCATION",
-    client: "Academic Institution",
-    bg: "var(--gradient-card-teal)",
-    span: "lg:col-span-2",
-  },
-  {
-    title: "GreenLeaf Digital Menu",
-    desc: "QR ordering + live menu management for a restaurant chain.",
-    tag: "HOSPITALITY",
-    client: "Restaurant Group",
-    bg: "var(--gradient-card-slate)",
-    span: "",
-  },
-  {
-    title: "UrbanCraft Agency",
-    desc: "Portfolio + lead funnel site for a creative studio.",
-    tag: "BUSINESS",
-    client: "Creative Studio",
-    bg: "var(--gradient-card-charcoal)",
-    span: "",
-  },
-];
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { PROJECTS, type Project } from "@/data/projects";
+import { ProjectModal } from "./ProjectModal";
 
 export function Work() {
+  const [active, setActive] = useState<Project | null>(null);
+  const featured = PROJECTS.filter((p) => p.featured);
+
   return (
     <section id="work" className="relative bg-bg-base py-28 md:py-36">
       <div className="container mx-auto">
@@ -41,24 +21,21 @@ export function Work() {
               Featured Work
             </h2>
           </div>
-          <a
-            href="#contact"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-            }}
+          <Link
+            to="/work"
             className="group flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-text-muted transition-colors hover:text-accent-blue"
           >
             View All Work
             <span className="transition-transform group-hover:translate-x-1">→</span>
-          </a>
+          </Link>
         </div>
 
         <div className="grid gap-5 lg:grid-cols-3" data-stagger="100">
-          {PROJECTS.map((p) => (
-            <article
-              key={p.title}
-              className={`reveal group relative overflow-hidden border border-white/[0.05] transition-all duration-500 hover:scale-[1.015] hover:border-accent-blue/40 hover:shadow-glow-blue ${p.span}`}
+          {featured.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => setActive(p)}
+              className={`reveal group relative flex flex-col overflow-hidden border border-white/[0.05] text-left transition-all duration-500 hover:scale-[1.015] hover:border-accent-blue/40 hover:shadow-glow-blue ${p.span ?? ""}`}
               style={{ background: p.bg, minHeight: 360 }}
             >
               {/* texture */}
@@ -91,6 +68,18 @@ export function Work() {
                   />
                 </div>
 
+                {/* Small, undisturbed thumbnail */}
+                <div className="my-5 overflow-hidden border border-white/10 shadow-lg">
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    loading="lazy"
+                    width={1024}
+                    height={576}
+                    className="aspect-[16/9] h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+
                 <div>
                   <h3 className="font-syne text-2xl font-bold leading-tight tracking-tight text-text-primary md:text-[1.7rem]">
                     {p.title}
@@ -103,10 +92,12 @@ export function Work() {
                   </div>
                 </div>
               </div>
-            </article>
+            </button>
           ))}
         </div>
       </div>
+
+      <ProjectModal project={active} onClose={() => setActive(null)} />
     </section>
   );
 }

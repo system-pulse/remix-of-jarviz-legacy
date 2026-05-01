@@ -19,8 +19,11 @@ export function ParticleField() {
     let particles: Particle[] = [];
     let raf = 0;
 
-    const COUNT = 80;
-    const LINK = 130;
+    // 👇 CHANGE THESE TWO TO TUNE THE HERO PARTICLE BG
+    // COUNT = number of blue dots (higher = denser). Try 60–220.
+    // LINK  = max distance (px) at which two dots get connected by a line.
+    const COUNT = 160;
+    const LINK = 140;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
