@@ -32,7 +32,6 @@ export function Footer() {
 
           <div className="flex items-center gap-4 text-text-muted">
             {[
-              { Icon: Twitter, href: "#", label: "Twitter" },
               { Icon: Instagram, href: "#", label: "Instagram" },
               { Icon: Linkedin, href: "#", label: "LinkedIn" },
               { Icon: Github, href: "#", label: "GitHub" },
