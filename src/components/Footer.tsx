@@ -1,4 +1,4 @@
-import { Github, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Github, Instagram, Linkedin } from "lucide-react";
 import { ArcReactor } from "./ArcReactor";
 
 const NAV = ["Work", "Services", "About", "Process", "Contact"];
