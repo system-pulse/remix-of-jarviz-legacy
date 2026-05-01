@@ -83,7 +83,7 @@ export function Contact() {
             </a>
 
             <a
-              href="https://wa.me/919999999999"
+              href="https://wa.link/y8dqik"
               target="_blank"
               rel="noopener noreferrer"
               className="reveal group relative flex items-center gap-4 overflow-hidden border border-white/5 bg-[hsl(142_70%_30%)] px-5 py-4 text-text-primary transition-all duration-300 hover:bg-[hsl(142_70%_36%)] animate-pulse-glow"
@@ -95,7 +95,7 @@ export function Contact() {
                 <div className="font-mono text-[0.65rem] uppercase tracking-widest text-white/70">
                   WhatsApp
                 </div>
-                <div className="font-dm font-medium">+91 99999 99999</div>
+                <div className="font-dm font-medium">+91 87924 51870</div>
               </div>
             </a>
 
