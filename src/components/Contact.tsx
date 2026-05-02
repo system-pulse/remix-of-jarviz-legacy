@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 const schema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
   email: z.string().trim().email("Invalid email").max(255),
+  phone: z.string().trim().min(7, "Enter a valid phone number").max(20, "Phone too long").regex(/^[0-9+\-\s()]+$/, "Invalid phone number"),
   type: z.string().min(1, "Choose a project type"),
   message: z.string().trim().min(5, "Tell us a bit more").max(2000),
 });
@@ -21,7 +22,7 @@ const PROJECT_TYPES = [
 
 export function Contact() {
   const { toast } = useToast();
-  const [form, setForm] = useState({ name: "", email: "", type: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", type: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
 
   const onChange =
@@ -44,6 +45,7 @@ export function Contact() {
     const { error } = await supabase.from("contact_submissions").insert({
       name: parsed.data.name,
       email: parsed.data.email,
+      phone: parsed.data.phone,
       project_type: parsed.data.type,
       message: parsed.data.message,
     });
@@ -56,7 +58,7 @@ export function Contact() {
       });
       return;
     }
-    setForm({ name: "", email: "", type: "", message: "" });
+    setForm({ name: "", email: "", phone: "", type: "", message: "" });
     toast({
       title: "Message sent",
       description: "We'll be in touch within 24 hours.",
@@ -142,6 +144,18 @@ export function Contact() {
               value={form.email}
               onChange={onChange("email")}
               maxLength={255}
+              className="w-full border border-white/5 bg-bg-surface/50 px-4 py-3 font-dm text-text-primary outline-none transition-all duration-300 focus:border-accent-blue/60 focus:shadow-glow-blue"
+            />
+          </div>
+          <div>
+            <label className="label-mono mb-2 block">Phone</label>
+            <input
+              type="tel"
+              inputMode="tel"
+              placeholder="+91 98765 43210"
+              value={form.phone}
+              onChange={onChange("phone")}
+              maxLength={20}
               className="w-full border border-white/5 bg-bg-surface/50 px-4 py-3 font-dm text-text-primary outline-none transition-all duration-300 focus:border-accent-blue/60 focus:shadow-glow-blue"
             />
           </div>

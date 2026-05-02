@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { adminIsAuthed, adminLogout } from "@/lib/adminAuth";
 import { useProjects, type DBProject } from "@/hooks/useProjects";
 import { useSiteSettings, type HowWeWorkItem } from "@/hooks/useSiteSettings";
-import { LogOut, Plus, Trash2, Pencil, X, Upload, Save, GripVertical, Mail, CheckCircle2, Circle } from "lucide-react";
+import { LogOut, Plus, Trash2, Pencil, X, Upload, Save, GripVertical, Mail, CheckCircle2, Circle, Phone } from "lucide-react";
 import { toast } from "sonner";
 import { CustomCursor } from "@/components/CustomCursor";
 
@@ -413,8 +413,10 @@ function SettingsManager() {
     setSaving(true);
     const { error } = await supabase
       .from("site_settings")
-      .update({ how_we_work: items as unknown as never, updated_at: new Date().toISOString() })
-      .eq("id", "main");
+      .upsert(
+        { id: "main", how_we_work: items as unknown as never, updated_at: new Date().toISOString() },
+        { onConflict: "id" }
+      );
     setSaving(false);
     if (error) toast.error(error.message);
     else {
@@ -487,6 +489,7 @@ interface Submission {
   id: string;
   name: string;
   email: string;
+  phone: string;
   project_type: string;
   message: string;
   is_read: boolean;
@@ -582,65 +585,69 @@ function SubmissionsManager() {
         </div>
       ) : (
         <div className="overflow-hidden border border-white/[0.06]">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-bg-card font-mono text-[0.6rem] uppercase tracking-widest text-text-muted">
-              <tr>
-                <th className="px-4 py-3 w-8"></th>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Type</th>
-                <th className="px-4 py-3">Message</th>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((s) => (
-                <tr
-                  key={s.id}
-                  onClick={() => setOpen(s)}
-                  className={`border-t border-white/[0.05] transition-colors hover:bg-bg-card/60 ${
-                    !s.is_read ? "bg-accent-blue/[0.03]" : ""
-                  }`}
-                >
-                  <td className="px-4 py-3">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleRead(s);
-                      }}
-                      title={s.is_read ? "Mark unread" : "Mark read"}
-                      className="text-accent-blue"
-                    >
-                      {s.is_read ? <CheckCircle2 size={14} /> : <Circle size={14} />}
-                    </button>
-                  </td>
-                  <td className="px-4 py-3 font-syne font-bold text-text-primary">{s.name}</td>
-                  <td className="px-4 py-3 font-mono text-xs text-text-muted">{s.email}</td>
-                  <td className="px-4 py-3">
-                    <span className="border border-white/10 px-2 py-0.5 font-mono text-[0.55rem] uppercase tracking-widest text-text-muted">
-                      {s.project_type || "—"}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 max-w-xs truncate text-text-muted">{s.message}</td>
-                  <td className="px-4 py-3 font-mono text-[0.65rem] text-text-muted">
-                    {new Date(s.created_at).toLocaleString()}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        remove(s.id);
-                      }}
-                      className="text-text-muted transition-colors hover:text-accent-red"
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-bg-card font-mono text-[0.6rem] uppercase tracking-widest text-text-muted">
+                <tr>
+                  <th className="px-4 py-3 w-8"></th>
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3">Email</th>
+                  <th className="px-4 py-3">Phone</th>
+                  <th className="px-4 py-3">Type</th>
+                  <th className="px-4 py-3">Message</th>
+                  <th className="px-4 py-3">Date</th>
+                  <th className="px-4 py-3"></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filtered.map((s) => (
+                  <tr
+                    key={s.id}
+                    onClick={() => setOpen(s)}
+                    className={`border-t border-white/[0.05] transition-colors hover:bg-bg-card/60 ${
+                      !s.is_read ? "bg-accent-blue/[0.03]" : ""
+                    }`}
+                  >
+                    <td className="px-4 py-3">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleRead(s);
+                        }}
+                        title={s.is_read ? "Mark unread" : "Mark read"}
+                        className="text-accent-blue"
+                      >
+                        {s.is_read ? <CheckCircle2 size={14} /> : <Circle size={14} />}
+                      </button>
+                    </td>
+                    <td className="px-4 py-3 font-syne font-bold text-text-primary">{s.name}</td>
+                    <td className="px-4 py-3 font-mono text-xs text-text-muted">{s.email}</td>
+                    <td className="px-4 py-3 font-mono text-xs text-text-muted">{s.phone || "—"}</td>
+                    <td className="px-4 py-3">
+                      <span className="border border-white/10 px-2 py-0.5 font-mono text-[0.55rem] uppercase tracking-widest text-text-muted">
+                        {s.project_type || "—"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 max-w-xs truncate text-text-muted">{s.message}</td>
+                    <td className="px-4 py-3 whitespace-nowrap font-mono text-[0.65rem] text-text-muted">
+                      {new Date(s.created_at).toLocaleString()}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          remove(s.id);
+                        }}
+                        className="text-text-muted transition-colors hover:text-accent-red"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
@@ -650,48 +657,64 @@ function SubmissionsManager() {
           onClick={() => setOpen(null)}
         >
           <div
-            className="w-full max-w-lg border border-white/10 bg-bg-card p-6"
+            className="w-full max-w-lg max-h-[90vh] overflow-y-auto border border-white/10 bg-bg-card p-6"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mb-5 flex items-start justify-between">
-              <div>
+            <div className="mb-5 flex items-start justify-between gap-3">
+              <div className="min-w-0 flex-1">
                 <div className="font-mono text-[0.6rem] uppercase tracking-widest text-accent-blue">
                   <Mail size={12} className="mr-1.5 inline" /> Contact submission
                 </div>
-                <h3 className="mt-1 font-syne text-2xl font-extrabold">{open.name}</h3>
+                <h3 className="mt-1 break-words font-syne text-2xl font-extrabold">{open.name}</h3>
                 <a
                   href={`mailto:${open.email}`}
-                  className="font-mono text-xs text-text-muted hover:text-accent-blue"
+                  className="block break-all font-mono text-xs text-text-muted hover:text-accent-blue"
                 >
                   {open.email}
                 </a>
+                {open.phone && (
+                  <a
+                    href={`tel:${open.phone}`}
+                    className="mt-1 block break-all font-mono text-xs text-text-muted hover:text-accent-blue"
+                  >
+                    {open.phone}
+                  </a>
+                )}
               </div>
-              <button onClick={() => setOpen(null)} className="text-text-muted hover:text-text-primary">
+              <button onClick={() => setOpen(null)} className="shrink-0 text-text-muted hover:text-text-primary">
                 <X size={18} />
               </button>
             </div>
 
-            <div className="mb-4 flex items-center gap-3 border-y border-white/5 py-3 font-mono text-[0.65rem] uppercase tracking-widest text-text-muted">
+            <div className="mb-4 flex flex-wrap items-center gap-3 border-y border-white/5 py-3 font-mono text-[0.65rem] uppercase tracking-widest text-text-muted">
               <span className="border border-white/10 px-2 py-0.5 text-accent-blue">
                 {open.project_type || "—"}
               </span>
               <span>{new Date(open.created_at).toLocaleString()}</span>
             </div>
 
-            <p className="whitespace-pre-wrap font-dm text-text-primary">{open.message}</p>
+            <p className="whitespace-pre-wrap break-words font-dm text-text-primary">{open.message}</p>
 
-            <div className="mt-6 flex items-center justify-end gap-3">
+            <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
               <button
                 onClick={() => toggleRead(open)}
                 className="border border-white/10 px-4 py-2 font-mono text-[0.65rem] uppercase tracking-widest text-text-muted hover:text-text-primary"
               >
                 Mark {open.is_read ? "unread" : "read"}
               </button>
+              {open.phone && (
+                <a
+                  href={`tel:${open.phone}`}
+                  className="inline-flex items-center gap-2 border border-accent-blue/40 bg-accent-blue/10 px-4 py-2 font-mono text-[0.65rem] uppercase tracking-widest text-accent-blue hover:bg-accent-blue/20"
+                >
+                  <Phone size={12} /> Call
+                </a>
+              )}
               <a
                 href={`mailto:${open.email}`}
-                className="bg-accent-blue px-4 py-2 font-mono text-[0.65rem] uppercase tracking-widest text-bg-deep"
+                className="inline-flex items-center gap-2 bg-accent-blue px-4 py-2 font-mono text-[0.65rem] uppercase tracking-widest text-bg-deep"
               >
-                Reply via email
+                <Mail size={12} /> Reply via email
               </a>
             </div>
           </div>
