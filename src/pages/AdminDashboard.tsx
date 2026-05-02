@@ -68,7 +68,7 @@ const AdminDashboard = () => {
       </header>
 
       <main className="container mx-auto py-10">
-        {tab === "projects" ? <ProjectsManager /> : <SettingsManager />}
+        {tab === "projects" ? <ProjectsManager /> : tab === "submissions" ? <SubmissionsManager /> : <SettingsManager />}
       </main>
     </div>
   );
