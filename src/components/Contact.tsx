@@ -148,6 +148,18 @@ export function Contact() {
             />
           </div>
           <div>
+            <label className="label-mono mb-2 block">Phone</label>
+            <input
+              type="tel"
+              inputMode="tel"
+              placeholder="+91 98765 43210"
+              value={form.phone}
+              onChange={onChange("phone")}
+              maxLength={20}
+              className="w-full border border-white/5 bg-bg-surface/50 px-4 py-3 font-dm text-text-primary outline-none transition-all duration-300 focus:border-accent-blue/60 focus:shadow-glow-blue"
+            />
+          </div>
+          <div>
             <label className="label-mono mb-2 block">Project Type</label>
             <select
               value={form.type}
