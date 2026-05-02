@@ -1,14 +1,10 @@
-const STACK = [
-  { tag: "DESIGN", text: "Figma → Clean, functional UI" },
-  { tag: "BUILD", text: "React + Tailwind → Fast, modern code" },
-  { tag: "DEPLOY", text: "Vercel/Netlify → Live in hours" },
-  { tag: "SUPPORT", text: "Always on → Post-launch help" },
-];
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 export function About() {
+  const { howWeWork } = useSiteSettings();
+
   return (
     <section id="about" className="relative overflow-hidden bg-bg-deep py-28 md:py-36">
-      {/* huge faint section number */}
       <div
         aria-hidden
         className="pointer-events-none absolute -top-10 left-0 select-none font-syne text-[28vw] font-extrabold leading-none text-text-dim/[0.06] md:text-[18rem]"
@@ -47,7 +43,6 @@ export function About() {
           </div>
         </div>
 
-        {/* Stack card */}
         <div className="lg:col-span-5">
           <div className="reveal glass p-2">
             <div className="border-b border-white/5 px-5 py-4 flex items-center justify-between">
@@ -61,9 +56,9 @@ export function About() {
               </span>
             </div>
             <ul className="divide-y divide-white/5">
-              {STACK.map((row) => (
+              {howWeWork.map((row, i) => (
                 <li
-                  key={row.tag}
+                  key={`${row.tag}-${i}`}
                   className="flex items-center gap-5 border-l-2 border-accent-blue/70 px-5 py-5"
                 >
                   <span className="w-24 shrink-0 font-mono text-[0.7rem] tracking-widest text-accent-blue">
