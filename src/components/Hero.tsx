@@ -93,6 +93,12 @@ export function Hero() {
             </button>
           </div>
         </div>
+
+        {/* Right-side decorative system panel — desktop only */}
+        <div className="hidden lg:flex lg:col-span-4 justify-center">
+          <HeroPanel />
+        </div>
+        </div>
       </div>
 
       {/* Marquee ticker */}
