@@ -15,8 +15,10 @@ export function HeroPanel() {
     const id = setInterval(() => {
       setTick((t) => (t + 1) % 100);
       const d = new Date();
+      // IST = UTC + 5:30
+      const ist = new Date(d.getTime() + (5 * 60 + 30) * 60 * 1000);
       const pad = (n: number) => String(n).padStart(2, "0");
-      setTime(`${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())} UTC`);
+      setTime(`${pad(ist.getUTCHours())}:${pad(ist.getUTCMinutes())}:${pad(ist.getUTCSeconds())} IST`);
     }, 1000);
     return () => clearInterval(id);
   }, []);
