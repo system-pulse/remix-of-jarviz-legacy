@@ -4,10 +4,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { adminIsAuthed, adminLogout } from "@/lib/adminAuth";
 import { useProjects, type DBProject } from "@/hooks/useProjects";
 import { useSiteSettings, type HowWeWorkItem } from "@/hooks/useSiteSettings";
-import { LogOut, Plus, Trash2, Pencil, X, Upload, Save, GripVertical } from "lucide-react";
+import { LogOut, Plus, Trash2, Pencil, X, Upload, Save, GripVertical, Mail, CheckCircle2, Circle } from "lucide-react";
 import { toast } from "sonner";
+import { CustomCursor } from "@/components/CustomCursor";
 
-type Tab = "projects" | "settings";
+type Tab = "projects" | "settings" | "submissions";
 
 const empty: Omit<DBProject, "id"> = {
   title: "",
