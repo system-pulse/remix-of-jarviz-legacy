@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ParticleField } from "./ParticleField";
 import { HexGrid } from "./HexGrid";
+import { HeroPanel } from "./HeroPanel";
 
 const TERMINAL = "[ SYS_ONLINE ] ── JARVIZ TECH v2.0 ── EST. 2023";
 
@@ -33,7 +34,8 @@ export function Hero() {
       </div>
 
       <div className="container relative mx-auto">
-        <div className="max-w-[780px]">
+        <div className="grid items-center gap-12 lg:grid-cols-12">
+        <div className="max-w-[780px] lg:col-span-8">
           <div className="mb-8 font-mono text-[0.72rem] tracking-widest text-accent-blue/80">
             {typed}
             <span className="ml-0.5 inline-block h-3 w-2 -translate-y-0.5 bg-accent-blue/80 animate-blink align-middle" />
@@ -90,6 +92,12 @@ export function Hero() {
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </button>
           </div>
+        </div>
+
+        {/* Right-side decorative system panel — desktop only */}
+        <div className="hidden lg:flex lg:col-span-4 justify-center">
+          <HeroPanel />
+        </div>
         </div>
       </div>
 
