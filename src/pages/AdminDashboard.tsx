@@ -413,8 +413,10 @@ function SettingsManager() {
     setSaving(true);
     const { error } = await supabase
       .from("site_settings")
-      .update({ how_we_work: items as unknown as never, updated_at: new Date().toISOString() })
-      .eq("id", "main");
+      .upsert(
+        { id: "main", how_we_work: items as unknown as never, updated_at: new Date().toISOString() },
+        { onConflict: "id" }
+      );
     setSaving(false);
     if (error) toast.error(error.message);
     else {
