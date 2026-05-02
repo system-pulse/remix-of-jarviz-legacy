@@ -37,6 +37,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-bg-deep text-text-primary">
+      <CustomCursor />
       <header className="border-b border-white/[0.06] bg-bg-base/80 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between py-4">
           <div className="flex items-center gap-6">
