@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { adminLogin } from "@/lib/adminAuth";
 import { Lock } from "lucide-react";
+import { CustomCursor } from "@/components/CustomCursor";
 
 const AdminLogin = () => {
   const nav = useNavigate();
@@ -20,6 +21,7 @@ const AdminLogin = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-bg-deep p-6">
+      <CustomCursor />
       <form
         onSubmit={submit}
         className="w-full max-w-md border border-white/10 bg-bg-card p-8 shadow-glow-blue"

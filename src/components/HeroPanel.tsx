@@ -15,8 +15,10 @@ export function HeroPanel() {
     const id = setInterval(() => {
       setTick((t) => (t + 1) % 100);
       const d = new Date();
+      // IST = UTC + 5:30
+      const ist = new Date(d.getTime() + (5 * 60 + 30) * 60 * 1000);
       const pad = (n: number) => String(n).padStart(2, "0");
-      setTime(`${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())} UTC`);
+      setTime(`${pad(ist.getUTCHours())}:${pad(ist.getUTCMinutes())}:${pad(ist.getUTCSeconds())} IST`);
     }, 1000);
     return () => clearInterval(id);
   }, []);
@@ -82,7 +84,7 @@ export function HeroPanel() {
             SYSTEM_STATUS
           </span>
           <span className="font-mono text-[0.6rem] tracking-widest text-accent-blue/80">
-            {time || "00:00:00 UTC"}
+            {time || "00:00:00 IST"}
           </span>
         </div>
         <ul className="space-y-2">

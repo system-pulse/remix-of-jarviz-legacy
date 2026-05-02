@@ -2,6 +2,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { Mail, MapPin, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -40,9 +41,21 @@ export function Contact() {
       return;
     }
     setSubmitting(true);
-    // Phase 2: persist to Lovable Cloud. For now: simulate.
-    await new Promise((r) => setTimeout(r, 700));
+    const { error } = await supabase.from("contact_submissions").insert({
+      name: parsed.data.name,
+      email: parsed.data.email,
+      project_type: parsed.data.type,
+      message: parsed.data.message,
+    });
     setSubmitting(false);
+    if (error) {
+      toast({
+        title: "Couldn't send",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
     setForm({ name: "", email: "", type: "", message: "" });
     toast({
       title: "Message sent",

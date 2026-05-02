@@ -4,10 +4,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { adminIsAuthed, adminLogout } from "@/lib/adminAuth";
 import { useProjects, type DBProject } from "@/hooks/useProjects";
 import { useSiteSettings, type HowWeWorkItem } from "@/hooks/useSiteSettings";
-import { LogOut, Plus, Trash2, Pencil, X, Upload, Save, GripVertical } from "lucide-react";
+import { LogOut, Plus, Trash2, Pencil, X, Upload, Save, GripVertical, Mail, CheckCircle2, Circle } from "lucide-react";
 import { toast } from "sonner";
+import { CustomCursor } from "@/components/CustomCursor";
 
-type Tab = "projects" | "settings";
+type Tab = "projects" | "settings" | "submissions";
 
 const empty: Omit<DBProject, "id"> = {
   title: "",
@@ -36,6 +37,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-bg-deep text-text-primary">
+      <CustomCursor />
       <header className="border-b border-white/[0.06] bg-bg-base/80 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between py-4">
           <div className="flex items-center gap-6">
@@ -43,7 +45,7 @@ const AdminDashboard = () => {
               JARVIZ <span className="text-accent-blue">// ADMIN</span>
             </div>
             <nav className="flex gap-1">
-              {(["projects", "settings"] as Tab[]).map((t) => (
+              {(["projects", "submissions", "settings"] as Tab[]).map((t) => (
                 <button
                   key={t}
                   onClick={() => setTab(t)}
@@ -66,7 +68,7 @@ const AdminDashboard = () => {
       </header>
 
       <main className="container mx-auto py-10">
-        {tab === "projects" ? <ProjectsManager /> : <SettingsManager />}
+        {tab === "projects" ? <ProjectsManager /> : tab === "submissions" ? <SubmissionsManager /> : <SettingsManager />}
       </main>
     </div>
   );
@@ -475,6 +477,226 @@ function SettingsManager() {
           <Plus size={12} /> Add Step
         </button>
       </div>
+    </div>
+  );
+}
+
+/* ---------------- SUBMISSIONS ---------------- */
+
+interface Submission {
+  id: string;
+  name: string;
+  email: string;
+  project_type: string;
+  message: string;
+  is_read: boolean;
+  created_at: string;
+}
+
+function SubmissionsManager() {
+  const [items, setItems] = useState<Submission[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<"all" | "unread" | string>("all");
+  const [open, setOpen] = useState<Submission | null>(null);
+
+  const load = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("contact_submissions")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error) toast.error(error.message);
+    else setItems((data || []) as Submission[]);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  const toggleRead = async (s: Submission) => {
+    const { error } = await supabase
+      .from("contact_submissions")
+      .update({ is_read: !s.is_read })
+      .eq("id", s.id);
+    if (error) toast.error(error.message);
+    else {
+      setItems((arr) => arr.map((x) => (x.id === s.id ? { ...x, is_read: !s.is_read } : x)));
+      if (open?.id === s.id) setOpen({ ...open, is_read: !s.is_read });
+    }
+  };
+
+  const remove = async (id: string) => {
+    if (!confirm("Delete this submission?")) return;
+    const { error } = await supabase.from("contact_submissions").delete().eq("id", id);
+    if (error) toast.error(error.message);
+    else {
+      toast.success("Deleted");
+      setItems((arr) => arr.filter((x) => x.id !== id));
+      if (open?.id === id) setOpen(null);
+    }
+  };
+
+  const types = Array.from(new Set(items.map((i) => i.project_type).filter(Boolean)));
+  const filtered = items.filter((i) => {
+    if (filter === "all") return true;
+    if (filter === "unread") return !i.is_read;
+    return i.project_type === filter;
+  });
+  const unreadCount = items.filter((i) => !i.is_read).length;
+
+  return (
+    <div>
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <h2 className="font-syne text-3xl font-extrabold tracking-tight">Submissions</h2>
+          {unreadCount > 0 && (
+            <span className="border border-accent-blue/40 bg-accent-blue/10 px-2 py-0.5 font-mono text-[0.6rem] tracking-widest text-accent-blue">
+              {unreadCount} NEW
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="mb-5 flex flex-wrap gap-2">
+        {(["all", "unread", ...types] as string[]).map((f) => (
+          <button
+            key={f}
+            onClick={() => setFilter(f)}
+            className={`px-3 py-1.5 font-mono text-[0.6rem] uppercase tracking-widest transition-colors ${
+              filter === f
+                ? "border border-accent-blue/50 bg-accent-blue/10 text-accent-blue"
+                : "border border-white/10 text-text-muted hover:text-text-primary"
+            }`}
+          >
+            {f}
+          </button>
+        ))}
+      </div>
+
+      {loading ? (
+        <div className="font-mono text-xs uppercase tracking-widest text-text-muted">Loading…</div>
+      ) : filtered.length === 0 ? (
+        <div className="border border-dashed border-white/10 py-16 text-center font-mono text-xs uppercase tracking-widest text-text-muted">
+          No submissions yet.
+        </div>
+      ) : (
+        <div className="overflow-hidden border border-white/[0.06]">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-bg-card font-mono text-[0.6rem] uppercase tracking-widest text-text-muted">
+              <tr>
+                <th className="px-4 py-3 w-8"></th>
+                <th className="px-4 py-3">Name</th>
+                <th className="px-4 py-3">Email</th>
+                <th className="px-4 py-3">Type</th>
+                <th className="px-4 py-3">Message</th>
+                <th className="px-4 py-3">Date</th>
+                <th className="px-4 py-3"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((s) => (
+                <tr
+                  key={s.id}
+                  onClick={() => setOpen(s)}
+                  className={`border-t border-white/[0.05] transition-colors hover:bg-bg-card/60 ${
+                    !s.is_read ? "bg-accent-blue/[0.03]" : ""
+                  }`}
+                >
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleRead(s);
+                      }}
+                      title={s.is_read ? "Mark unread" : "Mark read"}
+                      className="text-accent-blue"
+                    >
+                      {s.is_read ? <CheckCircle2 size={14} /> : <Circle size={14} />}
+                    </button>
+                  </td>
+                  <td className="px-4 py-3 font-syne font-bold text-text-primary">{s.name}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-text-muted">{s.email}</td>
+                  <td className="px-4 py-3">
+                    <span className="border border-white/10 px-2 py-0.5 font-mono text-[0.55rem] uppercase tracking-widest text-text-muted">
+                      {s.project_type || "—"}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 max-w-xs truncate text-text-muted">{s.message}</td>
+                  <td className="px-4 py-3 font-mono text-[0.65rem] text-text-muted">
+                    {new Date(s.created_at).toLocaleString()}
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        remove(s.id);
+                      }}
+                      className="text-text-muted transition-colors hover:text-accent-red"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {open && (
+        <div
+          className="fixed inset-0 z-[1000] flex items-center justify-center bg-bg-deep/80 p-4 backdrop-blur"
+          onClick={() => setOpen(null)}
+        >
+          <div
+            className="w-full max-w-lg border border-white/10 bg-bg-card p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-5 flex items-start justify-between">
+              <div>
+                <div className="font-mono text-[0.6rem] uppercase tracking-widest text-accent-blue">
+                  <Mail size={12} className="mr-1.5 inline" /> Contact submission
+                </div>
+                <h3 className="mt-1 font-syne text-2xl font-extrabold">{open.name}</h3>
+                <a
+                  href={`mailto:${open.email}`}
+                  className="font-mono text-xs text-text-muted hover:text-accent-blue"
+                >
+                  {open.email}
+                </a>
+              </div>
+              <button onClick={() => setOpen(null)} className="text-text-muted hover:text-text-primary">
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="mb-4 flex items-center gap-3 border-y border-white/5 py-3 font-mono text-[0.65rem] uppercase tracking-widest text-text-muted">
+              <span className="border border-white/10 px-2 py-0.5 text-accent-blue">
+                {open.project_type || "—"}
+              </span>
+              <span>{new Date(open.created_at).toLocaleString()}</span>
+            </div>
+
+            <p className="whitespace-pre-wrap font-dm text-text-primary">{open.message}</p>
+
+            <div className="mt-6 flex items-center justify-end gap-3">
+              <button
+                onClick={() => toggleRead(open)}
+                className="border border-white/10 px-4 py-2 font-mono text-[0.65rem] uppercase tracking-widest text-text-muted hover:text-text-primary"
+              >
+                Mark {open.is_read ? "unread" : "read"}
+              </button>
+              <a
+                href={`mailto:${open.email}`}
+                className="bg-accent-blue px-4 py-2 font-mono text-[0.65rem] uppercase tracking-widest text-bg-deep"
+              >
+                Reply via email
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
