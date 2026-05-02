@@ -45,7 +45,7 @@ const AdminDashboard = () => {
               JARVIZ <span className="text-accent-blue">// ADMIN</span>
             </div>
             <nav className="flex gap-1">
-              {(["projects", "settings"] as Tab[]).map((t) => (
+              {(["projects", "submissions", "settings"] as Tab[]).map((t) => (
                 <button
                   key={t}
                   onClick={() => setTab(t)}
