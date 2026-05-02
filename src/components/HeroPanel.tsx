@@ -84,7 +84,7 @@ export function HeroPanel() {
             SYSTEM_STATUS
           </span>
           <span className="font-mono text-[0.6rem] tracking-widest text-accent-blue/80">
-            {time || "00:00:00 UTC"}
+            {time || "00:00:00 IST"}
           </span>
         </div>
         <ul className="space-y-2">
