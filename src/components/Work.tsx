@@ -47,7 +47,7 @@ export function Work() {
             <button
               key={p.id}
               onClick={() => setActive(p)}
-              className="reveal group relative flex flex-col overflow-hidden border border-white/[0.05] text-left transition-all duration-500 hover:scale-[1.015] hover:border-accent-blue/40 hover:shadow-glow-blue"
+              className="group relative flex flex-col overflow-hidden border border-white/[0.05] text-left transition-all duration-500 hover:scale-[1.015] hover:border-accent-blue/40 hover:shadow-glow-blue animate-fade-up"
               style={{ background: cardBgFor(i), minHeight: 360 }}
             >
               <div
