@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { adminLogin } from "@/lib/adminAuth";
 import { Lock } from "lucide-react";
+import { CustomCursor } from "@/components/CustomCursor";
 
 const AdminLogin = () => {
   const nav = useNavigate();
