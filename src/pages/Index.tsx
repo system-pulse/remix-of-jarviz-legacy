@@ -10,14 +10,12 @@ import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { CustomCursor } from "@/components/CustomCursor";
 import { useReveal } from "@/hooks/use-reveal";
-import { useThemeMode } from "@/hooks/useThemeMode";
 
 const Index = () => {
   const ref = useReveal();
-  const { mode } = useThemeMode();
   return (
     <div ref={ref} className="min-h-screen bg-bg-deep text-text-primary">
-      {mode === "tech" && <CustomCursor />}
+      <CustomCursor />
       <Navbar />
       <main>
         <Hero />
