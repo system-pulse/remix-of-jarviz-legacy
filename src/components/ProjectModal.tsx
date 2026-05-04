@@ -61,7 +61,7 @@ export function ProjectModal({ project, onClose }: Props) {
           >
             {project.title}
           </h2>
-          <p className="mt-5 font-dm text-base leading-relaxed text-text-muted">
+          <p className="mt-5 font-dm text-base leading-relaxed text-text-muted whitespace-pre-line">
             {project.long_description?.trim() ? project.long_description : project.description}
           </p>
 
