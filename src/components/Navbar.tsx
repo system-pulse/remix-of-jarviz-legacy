@@ -16,6 +16,8 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("");
   const [open, setOpen] = useState(false);
+  const { mode } = useThemeMode();
+  const isTech = mode === "tech";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
