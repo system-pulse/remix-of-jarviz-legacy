@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { ArcReactor } from "./ArcReactor";
 import { Menu, X } from "lucide-react";
+import { ModeToggle } from "./ModeToggle";
+import { useThemeMode } from "@/hooks/useThemeMode";
 
 const LINKS = [
   { id: "work", label: "Work" },
@@ -14,6 +16,8 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("");
   const [open, setOpen] = useState(false);
+  const { mode } = useThemeMode();
+  const isTech = mode === "tech";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -49,7 +53,9 @@ export function Navbar() {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-bg-deep/90 backdrop-blur-2xl border-b border-white/[0.06]"
+            ? isTech
+              ? "bg-bg-deep/90 backdrop-blur-2xl border-b border-white/[0.06]"
+              : "bg-bg-deep/95 backdrop-blur-md border-b border-text-primary/10"
             : "bg-transparent"
         }`}
       >
@@ -59,10 +65,18 @@ export function Navbar() {
             className="flex items-center gap-2.5"
             aria-label="Jarviz Tech home"
           >
-            <ArcReactor />
-            <span className="font-syne text-base font-extrabold tracking-tight text-text-primary">
-              JARVIZ<span className="text-accent-blue">TECH</span>
-            </span>
+            {isTech ? (
+              <>
+                <ArcReactor />
+                <span className="font-syne text-base font-extrabold tracking-tight text-text-primary">
+                  JARVIZ<span className="text-accent-blue">TECH</span>
+                </span>
+              </>
+            ) : (
+              <span className="font-syne text-xl font-bold tracking-tight text-text-primary">
+                Jarviz<span className="italic text-accent-blue">.</span>Tech
+              </span>
+            )}
           </button>
 
           <nav className="hidden items-center gap-9 md:flex">
@@ -78,20 +92,35 @@ export function Navbar() {
             ))}
           </nav>
 
-          <button
-            onClick={() => go("contact")}
-            className="hidden items-center gap-2 border border-accent-red/70 px-4 py-2 font-syne text-xs font-semibold uppercase tracking-wider text-accent-red transition-all duration-300 hover:bg-accent-red hover:text-text-primary hover:shadow-glow-red md:inline-flex"
-          >
-            Get a Quote
-          </button>
+          <div className="hidden items-center gap-3 md:flex">
+            <ModeToggle />
+            {isTech ? (
+              <button
+                onClick={() => go("contact")}
+                className="inline-flex items-center gap-2 border border-accent-red/70 px-4 py-2 font-syne text-xs font-semibold uppercase tracking-wider text-accent-red transition-all duration-300 hover:bg-accent-red hover:text-text-primary hover:shadow-glow-red"
+              >
+                Get a Quote
+              </button>
+            ) : (
+              <button
+                onClick={() => go("contact")}
+                className="inline-flex items-center gap-2 rounded-full bg-text-primary px-5 py-2 text-xs font-medium text-bg-deep transition-all duration-300 hover:bg-accent-blue"
+              >
+                Get a Quote →
+              </button>
+            )}
+          </div>
 
-          <button
-            onClick={() => setOpen((o) => !o)}
-            className="flex h-10 w-10 items-center justify-center text-text-primary md:hidden"
-            aria-label="Toggle menu"
-          >
-            {open ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <ModeToggle compact />
+            <button
+              onClick={() => setOpen((o) => !o)}
+              className="flex h-10 w-10 items-center justify-center text-text-primary"
+              aria-label="Toggle menu"
+            >
+              {open ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
       </header>
 

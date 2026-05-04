@@ -8,11 +8,13 @@ import AllWork from "./pages/AllWork.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import AdminDashboard from "./pages/AdminDashboard.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import { ThemeModeProvider } from "./hooks/useThemeMode";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <ThemeModeProvider>
     <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -27,6 +29,7 @@ const App = () => (
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
+    </ThemeModeProvider>
   </QueryClientProvider>
 );
 

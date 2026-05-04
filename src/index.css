@@ -99,12 +99,133 @@
     background: hsl(var(--accent-blue) / 0.3);
     color: hsl(var(--text-primary));
   }
-  /* Hide native cursor on desktop, custom cursor takes over */
+  /* Hide native cursor on desktop, custom cursor takes over (TECH MODE only) */
   @media (hover: hover) and (pointer: fine) {
-    body, a, button, input, textarea, select {
+    html[data-mode="tech"] body,
+    html[data-mode="tech"] a,
+    html[data-mode="tech"] button,
+    html[data-mode="tech"] input,
+    html[data-mode="tech"] textarea,
+    html[data-mode="tech"] select {
       cursor: none;
     }
   }
+}
+
+/* ==========================================================================
+   PROFESSIONAL / WARM STUDIO MODE
+   ========================================================================== */
+html[data-mode="pro"] {
+  --bg-deep: 38 30% 96%;
+  --bg-base: 36 28% 94%;
+  --bg-surface: 34 22% 90%;
+  --bg-card: 0 0% 100%;
+
+  --accent-blue: 18 55% 42%;
+  --accent-blue-dim: 18 45% 32%;
+  --accent-red: 8 60% 45%;
+  --accent-gold: 35 55% 50%;
+
+  --text-primary: 24 25% 14%;
+  --text-muted: 24 12% 38%;
+  --text-dim: 24 10% 60%;
+
+  --border: 28 18% 82%;
+  --input: 28 18% 82%;
+  --ring: 18 55% 42%;
+
+  --background: var(--bg-deep);
+  --foreground: var(--text-primary);
+  --card: var(--bg-card);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-card);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--text-primary);
+  --primary-foreground: var(--bg-deep);
+  --secondary: var(--bg-surface);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-surface);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--accent-blue);
+  --accent-foreground: var(--bg-deep);
+
+  --glow-blue: 0 6px 24px hsl(24 25% 14% / 0.08);
+  --glow-blue-strong: 0 12px 36px hsl(18 55% 42% / 0.18);
+  --glow-red: 0 6px 24px hsl(8 60% 45% / 0.18);
+
+  --gradient-radial-vignette: none;
+  --gradient-card-teal: linear-gradient(180deg, hsl(0 0% 100%), hsl(34 22% 94%));
+  --gradient-card-slate: linear-gradient(180deg, hsl(0 0% 100%), hsl(34 22% 94%));
+  --gradient-card-charcoal: linear-gradient(180deg, hsl(0 0% 100%), hsl(34 22% 94%));
+}
+
+html[data-mode="pro"] body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 400;
+}
+html[data-mode="pro"] h1,
+html[data-mode="pro"] h2,
+html[data-mode="pro"] h3,
+html[data-mode="pro"] h4,
+html[data-mode="pro"] h5 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+html[data-mode="pro"] .font-syne { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; }
+html[data-mode="pro"] .font-dm   { font-family: 'Inter', system-ui, sans-serif; }
+html[data-mode="pro"] .font-mono { font-family: 'Inter', system-ui, sans-serif; letter-spacing: 0.08em; }
+
+html[data-mode="pro"] .label-mono {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  color: hsl(var(--accent-blue));
+  font-weight: 500;
+}
+
+html[data-mode="pro"] .glass {
+  background: hsl(0 0% 100%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 1px 2px hsl(24 25% 14% / 0.04), 0 8px 24px hsl(24 25% 14% / 0.04);
+}
+
+html[data-mode="pro"] .red-spark {
+  width: 2.25rem;
+  height: 1px;
+  background: hsl(var(--accent-blue));
+  box-shadow: none;
+}
+
+html[data-mode="pro"] .nav-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: hsl(var(--text-muted));
+  font-weight: 500;
+}
+html[data-mode="pro"] .nav-link:hover,
+html[data-mode="pro"] .nav-link[data-active="true"] {
+  color: hsl(var(--text-primary));
+}
+
+html[data-mode="pro"] .vignette { background: none; }
+
+html[data-mode="pro"] .animate-blink,
+html[data-mode="pro"] .animate-marquee,
+html[data-mode="pro"] .animate-hex-breathe,
+html[data-mode="pro"] .animate-rotate-slow,
+html[data-mode="pro"] .animate-rotate-rev,
+html[data-mode="pro"] .animate-pulse-glow {
+  animation: none;
+}
+
+html[data-mode="pro"] ::selection {
+  background: hsl(var(--accent-blue) / 0.2);
+  color: hsl(var(--text-primary));
 }
 
 @layer components {
