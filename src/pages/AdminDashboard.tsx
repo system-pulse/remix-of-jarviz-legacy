@@ -227,7 +227,7 @@ function ProjectForm({
     setSaving(true);
     const payload = {
       ...form,
-      long_description: form.long_description || null,
+      long_description: null,
       project_url: form.project_url || null,
     };
     const { error } = initial
