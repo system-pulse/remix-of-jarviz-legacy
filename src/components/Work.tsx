@@ -2,6 +2,7 @@ import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ProjectModal } from "./ProjectModal";
+import { FadeText } from "./FadeText";
 import { useProjects, cardBgFor, imageFor, type DBProject } from "@/hooks/useProjects";
 
 export function Work() {
@@ -95,7 +96,7 @@ export function Work() {
                     {p.title}
                   </h3>
                   <p className="mt-3 max-w-md font-dm text-sm text-text-primary/70">
-                    {p.description}
+                    <FadeText text={p.description} words={22} />
                   </p>
                   <div className="mt-5 flex flex-wrap items-center gap-3">
                     <span className="inline-block border border-white/15 px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-widest text-text-primary/60">

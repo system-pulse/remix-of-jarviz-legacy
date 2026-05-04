@@ -227,7 +227,7 @@ function ProjectForm({
     setSaving(true);
     const payload = {
       ...form,
-      long_description: form.long_description || null,
+      long_description: null,
       project_url: form.project_url || null,
     };
     const { error } = initial
@@ -263,22 +263,17 @@ function ProjectForm({
             />
           </Field>
 
-          <Field label="Short Description *">
+          <Field label="Description *">
             <textarea
-              rows={2}
+              rows={6}
               value={form.description}
               onChange={(e) => set("description", e.target.value)}
               className={inp}
+              placeholder="Full project description — shown in the popup. Cards display the first ~22 words with a fade-out."
             />
-          </Field>
-
-          <Field label="Long Description (modal)">
-            <textarea
-              rows={4}
-              value={form.long_description ?? ""}
-              onChange={(e) => set("long_description", e.target.value)}
-              className={inp}
-            />
+            <span className="mt-1 block font-mono text-[0.55rem] tracking-widest text-text-dim">
+              Cards show ~22 words with fade-out · Popup shows full text
+            </span>
           </Field>
 
           <div className="grid gap-4 md:grid-cols-2">

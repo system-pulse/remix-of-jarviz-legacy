@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CustomCursor } from "@/components/CustomCursor";
 import { ProjectModal } from "@/components/ProjectModal";
+import { FadeText } from "@/components/FadeText";
 import { useProjects, cardBgFor, imageFor, type DBProject } from "@/hooks/useProjects";
 import { useReveal } from "@/hooks/use-reveal";
 
@@ -89,7 +90,7 @@ const AllWork = () => {
                       <h3 className="font-syne text-xl font-bold leading-tight tracking-tight text-text-primary md:text-2xl">
                         {p.title}
                       </h3>
-                      <p className="mt-2 font-dm text-sm text-text-primary/70">{p.description}</p>
+                      <p className="mt-2 font-dm text-sm text-text-primary/70"><FadeText text={p.description} words={22} /></p>
                       <div className="mt-4 flex flex-wrap items-center gap-2">
                         <span className="inline-block border border-white/15 px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-widest text-text-primary/60">
                           {p.client || "—"}
