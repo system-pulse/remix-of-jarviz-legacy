@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { ArcReactor } from "./ArcReactor";
 import { Menu, X } from "lucide-react";
+import { ModeToggle } from "./ModeToggle";
+import { useThemeMode } from "@/hooks/useThemeMode";
 
 const LINKS = [
   { id: "work", label: "Work" },
