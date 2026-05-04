@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CustomCursor } from "@/components/CustomCursor";
 import { ProjectModal } from "@/components/ProjectModal";
+import { FadeText } from "@/components/FadeText";
 import { useProjects, cardBgFor, imageFor, type DBProject } from "@/hooks/useProjects";
 import { useReveal } from "@/hooks/use-reveal";
 
