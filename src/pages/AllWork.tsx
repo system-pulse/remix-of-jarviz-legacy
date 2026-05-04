@@ -19,7 +19,7 @@ const AllWork = () => {
 
   return (
     <div ref={ref} className="min-h-screen bg-bg-deep text-text-primary">
-      <CustomCursor />
+      {isTech && <CustomCursor />}
       <Navbar />
 
       <main className="pt-32 pb-24">
