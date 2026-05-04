@@ -2,6 +2,7 @@ import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ProjectModal } from "./ProjectModal";
+import { FadeText } from "./FadeText";
 import { useProjects, cardBgFor, imageFor, type DBProject } from "@/hooks/useProjects";
 
 export function Work() {
