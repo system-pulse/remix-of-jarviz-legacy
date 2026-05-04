@@ -8,11 +8,14 @@ import { ProjectModal } from "@/components/ProjectModal";
 import { FadeText } from "@/components/FadeText";
 import { useProjects, cardBgFor, imageFor, type DBProject } from "@/hooks/useProjects";
 import { useReveal } from "@/hooks/use-reveal";
+import { useThemeMode } from "@/hooks/useThemeMode";
 
 const AllWork = () => {
   const ref = useReveal();
   const [active, setActive] = useState<DBProject | null>(null);
   const { projects, loading } = useProjects();
+  const { mode } = useThemeMode();
+  const isTech = mode === "tech";
 
   return (
     <div ref={ref} className="min-h-screen bg-bg-deep text-text-primary">
