@@ -65,16 +65,39 @@ export function Hero() {
           </h1>
 
           <p
-            className="mt-7 max-w-[480px] font-dm text-base font-light leading-relaxed text-text-muted animate-fade-up"
+            className="mt-7 max-w-[520px] font-dm text-base font-light leading-relaxed text-text-muted animate-fade-up"
             style={{ animationDelay: "850ms" }}
           >
-            Fast. Precise. Pixel-perfect. We design and develop websites, systems, and digital
-            products for businesses that are serious about their online presence.
+            Websites, software, and digital marketing — designed, built, and shipped by a team that
+            actually cares about the details.
           </p>
+
+          {/* Service capability chips */}
+          <div
+            className="mt-6 flex flex-wrap gap-2 animate-fade-up"
+            style={{ animationDelay: "950ms" }}
+          >
+            {[
+              "WEB DEVELOPMENT",
+              "SOFTWARE DEVELOPMENT",
+              "DIGITAL MARKETING",
+              "POSTER & GRAPHIC DESIGN",
+              "QR / RESTAURANT SYSTEMS",
+              "MAINTENANCE & SUPPORT",
+            ].map((s) => (
+              <span
+                key={s}
+                className="inline-flex items-center gap-2 border border-white/10 bg-white/[0.02] px-3 py-1.5 font-mono text-[0.6rem] tracking-widest text-text-muted transition-colors hover:border-accent-blue/50 hover:text-accent-blue"
+              >
+                <span className="h-1 w-1 rounded-full bg-accent-blue/70" />
+                {s}
+              </span>
+            ))}
+          </div>
 
           <div
             className="mt-10 flex flex-wrap items-center gap-4 animate-fade-up"
-            style={{ animationDelay: "1000ms" }}
+            style={{ animationDelay: "1050ms" }}
           >
             <button
               onClick={() => go("work")}
