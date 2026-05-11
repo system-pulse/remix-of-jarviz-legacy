@@ -2,16 +2,19 @@ const STEPS = [
   {
     n: "01",
     title: "Understand",
+    badge: "Week 1",
     desc: "We map your goals, users, and requirements before a single line is written.",
   },
   {
     n: "02",
     title: "Design & Build",
+    badge: "Week 2",
     desc: "Clean design, fast development, constant communication throughout.",
   },
   {
     n: "03",
     title: "Deliver & Support",
+    badge: "Week 3+",
     desc: "You go live. We stay available. No ghosting after handoff.",
   },
 ];
@@ -31,18 +34,14 @@ export function Process() {
         </div>
 
         <div className="relative grid gap-12 md:grid-cols-3 md:gap-8" data-stagger="120">
-          {/* dashed connector (desktop) */}
           <div
             aria-hidden
             className="pointer-events-none absolute left-[8%] right-[8%] top-[3.4rem] hidden md:block"
-            style={{
-              borderTop: "1px dashed hsl(var(--accent-blue) / 0.25)",
-            }}
+            style={{ borderTop: "1px dashed hsl(var(--accent-blue) / 0.25)" }}
           />
 
           {STEPS.map((s) => (
             <div key={s.n} className="reveal relative">
-              {/* faint giant number */}
               <span
                 aria-hidden
                 className="pointer-events-none absolute -top-10 -left-2 select-none font-syne text-[7rem] font-extrabold leading-none text-text-dim/[0.08] md:text-[8rem]"
@@ -57,7 +56,12 @@ export function Process() {
                   </span>
                   <span className="h-px flex-1 bg-white/[0.06]" />
                 </div>
-                <h3 className="font-syne text-2xl font-bold tracking-tight text-text-primary md:text-3xl">
+
+                <span className="inline-block rounded-full bg-accent-blue px-3 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-widest text-bg-deep">
+                  {s.badge}
+                </span>
+
+                <h3 className="mt-3 font-syne text-2xl font-bold tracking-tight text-text-primary md:text-3xl">
                   {s.title}
                 </h3>
                 <p className="mt-4 max-w-xs font-dm text-text-muted">{s.desc}</p>
