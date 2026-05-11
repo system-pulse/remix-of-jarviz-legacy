@@ -38,7 +38,7 @@ const AllWork = () => {
               <span className="text-accent-blue">One Place.</span>
             </h1>
             <p className="mt-5 font-dm text-text-muted">
-              A complete archive of work shipped under Jarviz Tech — from quick microsites to full
+              A complete archive of work shipped under Jarviz Solutions — from quick microsites to full
               digital systems.
             </p>
           </div>
