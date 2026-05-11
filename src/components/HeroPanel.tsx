@@ -58,7 +58,7 @@ export function HeroPanel() {
         {/* Center monogram */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <div className="font-syne text-[2.4rem] font-extrabold leading-none tracking-tighter text-text-primary">
-            JT
+            JS
           </div>
           <div className="mt-1 font-mono text-[0.55rem] tracking-[0.2em] text-accent-blue">
             v2.0

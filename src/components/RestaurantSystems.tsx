@@ -34,8 +34,7 @@ export function RestaurantSystems() {
             Built for Restaurants. <br />Not Just Websites.
           </h2>
           <p className="mt-5 max-w-md font-dm text-text-muted">
-            A complete ordering setup that runs on a phone, a printer, and a screen — without
-            the monthly subscription headache.
+           A complete smart ordering setup that seamlessly connects your phone,  and display screen for faster and smoother service ⚡📱🖨️🖥️
           </p>
 
           <ul className="mt-10 space-y-5">
@@ -53,15 +52,15 @@ export function RestaurantSystems() {
           </ul>
 
           <a
-            href="#contact"
+            href="#work"
             onClick={(e) => {
               e.preventDefault();
-              document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+              document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
             }}
             className="mt-10 inline-flex items-center gap-2 bg-accent-blue px-7 py-3.5 font-syne text-sm font-semibold uppercase tracking-wider text-bg-deep transition-all hover:shadow-glow-blue-strong hover:-translate-y-0.5"
             style={{ borderRadius: 4 }}
           >
-            See a Live Demo <ArrowRight size={16} />
+            view the Work <ArrowRight size={16} />
           </a>
         </div>
 

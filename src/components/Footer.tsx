@@ -30,7 +30,7 @@ export function Footer() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-4 text-text-muted">
+          {/* <div className="flex items-center gap-4 text-text-muted">
             {[
               { Icon: Instagram, href: "#", label: "Instagram" },
               { Icon: Linkedin, href: "#", label: "LinkedIn" },
@@ -45,7 +45,7 @@ export function Footer() {
                 <Icon size={16} />
               </a>
             ))}
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-white/[0.05] pt-6 font-mono text-[0.65rem] uppercase tracking-widest text-text-dim md:flex-row">

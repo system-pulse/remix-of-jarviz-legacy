@@ -79,10 +79,10 @@ export function Hero() {
           >
             {[
               "WEB DEVELOPMENT",
+              "QR / RESTAURANT SYSTEMS",
               "SOFTWARE DEVELOPMENT",
               "DIGITAL MARKETING",
               "POSTER & GRAPHIC DESIGN",
-              "QR / RESTAURANT SYSTEMS",
               "MAINTENANCE & SUPPORT",
             ].map((s) => (
               <span

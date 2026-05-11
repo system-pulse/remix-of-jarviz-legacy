@@ -85,7 +85,7 @@ export function Contact() {
 
           <div className="mt-10 space-y-4" data-stagger="80">
             <a
-              href="mailto:hello@jarvizsolutions.com"
+              href="mailto:nawazuddin.nzz@gmail.com"
               className="reveal glass glow-hover group flex items-center gap-4 px-5 py-4"
             >
               <span className="flex h-10 w-10 items-center justify-center border border-white/5 text-accent-blue">
@@ -93,12 +93,12 @@ export function Contact() {
               </span>
               <div>
                 <div className="label-mono">Email</div>
-                <div className="font-dm text-text-primary">hello@jarvizsolutions.com</div>
+                <div className="font-dm text-text-primary">Click & Connect </div>
               </div>
             </a>
 
             <a
-              href="https://wa.link/y8dqik"
+              href="https://wa.link/xdwlsb"
               target="_blank"
               rel="noopener noreferrer"
               className="reveal group relative flex items-center gap-4 overflow-hidden border border-white/5 bg-[hsl(142_70%_30%)] px-5 py-4 text-text-primary transition-all duration-300 hover:bg-[hsl(142_70%_36%)] animate-pulse-glow"
@@ -110,7 +110,7 @@ export function Contact() {
                 <div className="font-mono text-[0.65rem] uppercase tracking-widest text-white/70">
                   WhatsApp
                 </div>
-                <div className="font-dm font-medium">+91 87924 51870</div>
+                <div className="font-dm font-medium">Click & Connect</div>
               </div>
             </a>
 
@@ -120,6 +120,7 @@ export function Contact() {
               </span>
               <div>
                 <div className="label-mono">Location</div>
+                <div className="font-dm text-text-primary">Bellary 📍</div>
                 <div className="font-dm text-text-primary">Remote · India · Worldwide</div>
               </div>
             </div>
@@ -152,7 +153,7 @@ export function Contact() {
             <input
               type="tel"
               inputMode="tel"
-              placeholder="+91 98765 43210"
+              placeholder="+91"
               value={form.phone}
               onChange={onChange("phone")}
               maxLength={20}
