@@ -7,6 +7,7 @@ const LINKS = [
   { id: "services", label: "Services" },
   { id: "about", label: "About" },
   { id: "process", label: "Process" },
+  { id: "pricing", label: "Pricing" },
   { id: "contact", label: "Contact" },
 ];
 
