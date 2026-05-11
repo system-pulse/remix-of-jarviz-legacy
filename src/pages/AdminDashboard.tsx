@@ -8,7 +8,7 @@ import { LogOut, Plus, Trash2, Pencil, X, Upload, Save, GripVertical, Mail, Chec
 import { toast } from "sonner";
 import { CustomCursor } from "@/components/CustomCursor";
 
-type Tab = "projects" | "settings" | "submissions";
+type Tab = "projects" | "testimonials" | "settings" | "submissions";
 
 const empty: Omit<DBProject, "id"> = {
   title: "",
@@ -42,10 +42,10 @@ const AdminDashboard = () => {
         <div className="container mx-auto flex items-center justify-between py-4">
           <div className="flex items-center gap-6">
             <div className="font-syne text-xl font-extrabold tracking-tight">
-              JARVIZ <span className="text-accent-blue">// ADMIN</span>
+              JARVIZ SOLUTIONS <span className="text-accent-blue">// ADMIN</span>
             </div>
             <nav className="flex gap-1">
-              {(["projects", "submissions", "settings"] as Tab[]).map((t) => (
+              {(["projects", "testimonials", "submissions", "settings"] as Tab[]).map((t) => (
                 <button
                   key={t}
                   onClick={() => setTab(t)}
@@ -68,7 +68,7 @@ const AdminDashboard = () => {
       </header>
 
       <main className="container mx-auto py-10">
-        {tab === "projects" ? <ProjectsManager /> : tab === "submissions" ? <SubmissionsManager /> : <SettingsManager />}
+        {tab === "projects" ? <ProjectsManager /> : tab === "testimonials" ? <TestimonialsManager /> : tab === "submissions" ? <SubmissionsManager /> : <SettingsManager />}
       </main>
     </div>
   );
