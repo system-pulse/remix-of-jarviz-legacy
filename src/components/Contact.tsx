@@ -85,7 +85,7 @@ export function Contact() {
 
           <div className="mt-10 space-y-4" data-stagger="80">
             <a
-              href="mailto:hello@jarviztech.com"
+              href="mailto:hello@jarvizsolutions.com"
               className="reveal glass glow-hover group flex items-center gap-4 px-5 py-4"
             >
               <span className="flex h-10 w-10 items-center justify-center border border-white/5 text-accent-blue">
@@ -93,7 +93,7 @@ export function Contact() {
               </span>
               <div>
                 <div className="label-mono">Email</div>
-                <div className="font-dm text-text-primary">hello@jarviztech.com</div>
+                <div className="font-dm text-text-primary">hello@jarvizsolutions.com</div>
               </div>
             </a>
 

@@ -1,7 +1,7 @@
 import { Github, Instagram, Linkedin } from "lucide-react";
 import { ArcReactor } from "./ArcReactor";
 
-const NAV = ["Work", "Services", "About", "Process", "Contact"];
+const NAV = ["Work", "Services", "About", "Process", "Pricing", "Contact"];
 
 export function Footer() {
   return (
@@ -12,7 +12,7 @@ export function Footer() {
           <div className="flex items-center gap-2.5">
             <ArcReactor />
             <span className="font-syne text-base font-extrabold tracking-tight text-text-primary">
-              JARVIZ<span className="text-accent-blue">TECH</span>
+              JARVIZ<span className="text-accent-blue">SOLUTIONS</span>
             </span>
           </div>
 
@@ -49,7 +49,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-white/[0.05] pt-6 font-mono text-[0.65rem] uppercase tracking-widest text-text-dim md:flex-row">
-          <span>© 2025 Jarviz Tech</span>
+          <span>© 2025 Jarviz Solutions</span>
           <span>Designed &amp; built with intent.</span>
         </div>
       </div>

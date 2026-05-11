@@ -31,7 +31,7 @@ const AdminLogin = () => {
             <Lock size={20} />
           </div>
           <h1 className="font-syne text-2xl font-extrabold tracking-tight text-text-primary">
-            JARVIZ // ADMIN
+            JARVIZ SOLUTIONS // ADMIN
           </h1>
           <p className="mt-2 font-mono text-[0.65rem] tracking-widest text-text-muted">
             RESTRICTED · AUTHORIZED ACCESS ONLY

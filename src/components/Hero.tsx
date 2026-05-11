@@ -3,7 +3,7 @@ import { ParticleField } from "./ParticleField";
 import { HexGrid } from "./HexGrid";
 import { HeroPanel } from "./HeroPanel";
 
-const TERMINAL = "[ SYS_ONLINE ] ── JARVIZ TECH v2.0 ── EST. 2023";
+const TERMINAL = "[ SYS_ONLINE ] ── JARVIZ SOLUTIONS v2.0 ── EST. 2023";
 
 export function Hero() {
   const [typed, setTyped] = useState("");
@@ -100,21 +100,28 @@ export function Hero() {
             style={{ animationDelay: "1050ms" }}
           >
             <button
-              onClick={() => go("work")}
+              onClick={() => go("contact")}
               className="bg-accent-blue px-9 py-[15px] font-syne text-sm font-semibold uppercase tracking-wider text-bg-deep transition-all duration-300 hover:shadow-glow-blue-strong hover:-translate-y-0.5"
               style={{ borderRadius: 4 }}
             >
-              Explore Our Work
+              Get a Free Estimate in 24h
             </button>
             <button
-              onClick={() => go("contact")}
+              onClick={() => go("work")}
               className="group flex items-center gap-2 border border-white/10 px-9 py-[15px] font-syne text-sm font-semibold uppercase tracking-wider text-text-primary transition-all duration-300 hover:border-accent-blue/60 hover:text-accent-blue hover:shadow-glow-blue"
               style={{ borderRadius: 4 }}
             >
-              Start a Project
+              See Our Work
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </button>
           </div>
+
+          <p
+            className="mt-4 font-mono text-[0.7rem] tracking-widest text-text-dim animate-fade-up"
+            style={{ animationDelay: "1150ms" }}
+          >
+            No contracts. No agency bloat. Just results.
+          </p>
         </div>
 
         {/* Right-side decorative system panel — desktop only */}

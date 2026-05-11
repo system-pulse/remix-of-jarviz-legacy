@@ -7,6 +7,7 @@ const LINKS = [
   { id: "services", label: "Services" },
   { id: "about", label: "About" },
   { id: "process", label: "Process" },
+  { id: "pricing", label: "Pricing" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -57,11 +58,11 @@ export function Navbar() {
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="flex items-center gap-2.5"
-            aria-label="Jarviz Tech home"
+            aria-label="Jarviz Solutions home"
           >
             <ArcReactor />
             <span className="font-syne text-base font-extrabold tracking-tight text-text-primary">
-              JARVIZ<span className="text-accent-blue">TECH</span>
+              JARVIZ<span className="text-accent-blue">SOLUTIONS</span>
             </span>
           </button>
 
