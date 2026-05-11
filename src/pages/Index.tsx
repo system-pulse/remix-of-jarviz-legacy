@@ -2,10 +2,12 @@ import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
 import { Services } from "@/components/Services";
+import { RestaurantSystems } from "@/components/RestaurantSystems";
 import { Work } from "@/components/Work";
 import { About } from "@/components/About";
 import { Process } from "@/components/Process";
 import { Testimonials } from "@/components/Testimonials";
+import { Pricing } from "@/components/Pricing";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { CustomCursor } from "@/components/CustomCursor";
@@ -21,10 +23,12 @@ const Index = () => {
         <Hero />
         <Stats />
         <Services />
+        <RestaurantSystems />
         <Work />
         <About />
         <Process />
         <Testimonials />
+        <Pricing />
         <Contact />
       </main>
       <Footer />
