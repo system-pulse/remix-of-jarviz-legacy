@@ -719,4 +719,254 @@ function SubmissionsManager() {
   );
 }
 
+/* ---------------- TESTIMONIALS ---------------- */
+
+interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  quote: string;
+  rating: number;
+  photo_url: string;
+  featured: boolean;
+  sort_order: number;
+}
+
+const emptyT: Omit<Testimonial, "id"> = {
+  name: "",
+  role: "",
+  quote: "",
+  rating: 5,
+  photo_url: "",
+  featured: false,
+  sort_order: 0,
+};
+
+function TestimonialsManager() {
+  const [items, setItems] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState<Testimonial | "new" | null>(null);
+
+  const load = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("testimonials")
+      .select("*")
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: false });
+    if (error) toast.error(error.message);
+    else setItems((data || []) as Testimonial[]);
+    setLoading(false);
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const remove = async (id: string) => {
+    if (!confirm("Delete this testimonial?")) return;
+    const { error } = await supabase.from("testimonials").delete().eq("id", id);
+    if (error) toast.error(error.message);
+    else { toast.success("Deleted"); load(); }
+  };
+
+  return (
+    <div>
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h2 className="font-syne text-3xl font-extrabold tracking-tight">Testimonials</h2>
+          <p className="mt-1 font-mono text-[0.65rem] tracking-widest text-text-muted">
+            Featured ones (max 4) appear on the homepage.
+          </p>
+        </div>
+        <button
+          onClick={() => setEditing("new")}
+          className="inline-flex items-center gap-2 bg-accent-blue px-5 py-2.5 font-syne text-xs font-semibold uppercase tracking-wider text-bg-deep hover:shadow-glow-blue-strong"
+          style={{ borderRadius: 4 }}
+        >
+          <Plus size={14} /> Add New Testimonial
+        </button>
+      </div>
+
+      {loading ? (
+        <div className="font-mono text-xs uppercase tracking-widest text-text-muted">Loading…</div>
+      ) : (
+        <div className="grid gap-3">
+          {items.map((t) => (
+            <div key={t.id} className="flex items-center gap-4 border border-white/[0.06] bg-bg-card p-4">
+              {t.photo_url ? (
+                <img src={t.photo_url} alt="" className="h-12 w-12 rounded-full border border-white/10 object-cover" />
+              ) : (
+                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-accent-blue/40 bg-accent-blue/10 font-syne text-xs font-bold text-accent-blue">
+                  {t.name.split(/\s+/).map((p) => p[0]).slice(0, 2).join("").toUpperCase()}
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-syne font-bold text-text-primary truncate">{t.name}</span>
+                  {t.featured && (
+                    <span className="border border-accent-blue/40 px-1.5 py-0.5 font-mono text-[0.55rem] tracking-widest text-accent-blue">FEATURED</span>
+                  )}
+                  <span className="font-mono text-[0.55rem] text-accent-blue">{"★".repeat(t.rating)}</span>
+                </div>
+                <div className="font-mono text-[0.6rem] tracking-widest text-text-muted truncate">{t.role}</div>
+                <div className="mt-1 font-dm text-xs text-text-muted truncate">"{t.quote}"</div>
+              </div>
+              <button onClick={() => setEditing(t)} className="border border-white/10 p-2 text-text-muted hover:border-accent-blue/40 hover:text-accent-blue" aria-label="Edit">
+                <Pencil size={14} />
+              </button>
+              <button onClick={() => remove(t.id)} className="border border-white/10 p-2 text-text-muted hover:border-accent-red/40 hover:text-accent-red" aria-label="Delete">
+                <Trash2 size={14} />
+              </button>
+            </div>
+          ))}
+          {items.length === 0 && (
+            <div className="border border-dashed border-white/10 p-10 text-center font-mono text-xs uppercase tracking-widest text-text-muted">
+              No testimonials yet.
+            </div>
+          )}
+        </div>
+      )}
+
+      {editing && (
+        <TestimonialForm
+          initial={editing === "new" ? null : editing}
+          onClose={() => setEditing(null)}
+          onSaved={() => { setEditing(null); load(); }}
+        />
+      )}
+    </div>
+  );
+}
+
+function TestimonialForm({ initial, onClose, onSaved }: { initial: Testimonial | null; onClose: () => void; onSaved: () => void }) {
+  const [form, setForm] = useState<Omit<Testimonial, "id">>(
+    initial
+      ? { name: initial.name, role: initial.role, quote: initial.quote, rating: initial.rating, photo_url: initial.photo_url, featured: initial.featured, sort_order: initial.sort_order }
+      : { ...emptyT }
+  );
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) => setForm((f) => ({ ...f, [k]: v }));
+
+  const upload = async (file: File) => {
+    setUploading(true);
+    try {
+      const ext = file.name.split(".").pop() || "jpg";
+      const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const { error } = await supabase.storage.from("testimonial-photos").upload(name, file, { contentType: file.type, upsert: false });
+      if (error) throw error;
+      const { data } = supabase.storage.from("testimonial-photos").getPublicUrl(name);
+      set("photo_url", data.publicUrl);
+      toast.success("Photo uploaded");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const save = async () => {
+    if (!form.name.trim() || !form.quote.trim()) {
+      toast.error("Name and quote are required");
+      return;
+    }
+    setSaving(true);
+    const { error } = initial
+      ? await supabase.from("testimonials").update(form).eq("id", initial.id)
+      : await supabase.from("testimonials").insert(form);
+    setSaving(false);
+    if (error) toast.error(error.message);
+    else { toast.success(initial ? "Updated" : "Created"); onSaved(); }
+  };
+
+  const charCount = form.quote.length;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+      <div className="absolute inset-0 bg-bg-deep/85 backdrop-blur-xl" onClick={onClose} />
+      <div className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-white/10 bg-bg-card">
+        <div className="flex items-center justify-between border-b border-white/[0.06] px-6 py-4">
+          <h3 className="font-syne text-xl font-bold">{initial ? "Edit Testimonial" : "New Testimonial"}</h3>
+          <button onClick={onClose} aria-label="Close" className="text-text-muted hover:text-text-primary"><X size={18} /></button>
+        </div>
+
+        <div className="space-y-4 p-6">
+          <Field label="Client Photo">
+            <div className="flex items-center gap-3">
+              {form.photo_url ? (
+                <img src={form.photo_url} alt="" className="h-16 w-16 rounded-full border border-white/10 object-cover" />
+              ) : (
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-bg-deep font-mono text-[0.55rem] text-text-dim">NO IMG</div>
+              )}
+              <label className="inline-flex cursor-pointer items-center gap-2 border border-white/10 px-3 py-2 font-mono text-[0.6rem] uppercase tracking-widest text-text-muted hover:border-accent-blue/40 hover:text-accent-blue">
+                <Upload size={12} /> {uploading ? "Uploading…" : "Upload"}
+                <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) upload(f); }} />
+              </label>
+              {form.photo_url && (
+                <button onClick={() => set("photo_url", "")} className="font-mono text-[0.6rem] uppercase tracking-widest text-text-muted hover:text-accent-red">Remove</button>
+              )}
+            </div>
+          </Field>
+
+          <Field label="Full Name *">
+            <input value={form.name} onChange={(e) => set("name", e.target.value)} className={inp} />
+          </Field>
+
+          <Field label="Role / Company">
+            <input value={form.role} onChange={(e) => set("role", e.target.value)} className={inp} placeholder="e.g. Owner, Spice Garden Restaurant" />
+          </Field>
+
+          <Field label={`Testimonial * (${charCount}/300)`}>
+            <textarea
+              rows={4}
+              maxLength={300}
+              value={form.quote}
+              onChange={(e) => set("quote", e.target.value)}
+              className={inp}
+            />
+          </Field>
+
+          <Field label="Star Rating">
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => set("rating", n)}
+                  className={`text-2xl ${n <= form.rating ? "text-accent-blue" : "text-text-dim"}`}
+                  aria-label={`${n} stars`}
+                >
+                  ★
+                </button>
+              ))}
+            </div>
+          </Field>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <Field label="Sort Order">
+              <input type="number" value={form.sort_order} onChange={(e) => set("sort_order", Number(e.target.value))} className={inp} />
+            </Field>
+            <label className="mt-6 inline-flex items-center gap-2 font-dm text-sm text-text-primary">
+              <input type="checkbox" checked={form.featured} onChange={(e) => set("featured", e.target.checked)} className="h-4 w-4 accent-[hsl(var(--accent-blue))]" />
+              Featured (homepage, max 4)
+            </label>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-end gap-3 border-t border-white/[0.06] px-6 py-4">
+          <button onClick={onClose} className="border border-white/10 px-5 py-2 font-mono text-xs uppercase tracking-widest text-text-muted hover:border-white/20 hover:text-text-primary">Cancel</button>
+          <button
+            onClick={save}
+            disabled={saving}
+            className="inline-flex items-center gap-2 bg-accent-blue px-5 py-2 font-syne text-xs font-semibold uppercase tracking-wider text-bg-deep hover:shadow-glow-blue-strong disabled:opacity-50"
+            style={{ borderRadius: 4 }}
+          >
+            <Save size={13} /> {saving ? "Saving…" : "Save"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default AdminDashboard;
+
