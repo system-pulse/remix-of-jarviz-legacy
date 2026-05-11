@@ -3,7 +3,7 @@ import { ParticleField } from "./ParticleField";
 import { HexGrid } from "./HexGrid";
 import { HeroPanel } from "./HeroPanel";
 
-const TERMINAL = "[ SYS_ONLINE ] ── JARVIZ TECH v2.0 ── EST. 2023";
+const TERMINAL = "[ SYS_ONLINE ] ── JARVIZ SOLUTIONS v2.0 ── EST. 2023";
 
 export function Hero() {
   const [typed, setTyped] = useState("");
