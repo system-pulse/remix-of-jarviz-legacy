@@ -87,6 +87,13 @@ export function Hero() {
             </p>
           </div>
         </div>
+
+        {/* Floating arc-reactor panel — desktop only */}
+        <div className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 lg:block xl:right-10">
+          <div className="pointer-events-auto opacity-90">
+            <HeroPanel />
+          </div>
+        </div>
       </div>
 
       {/* Marquee ticker */}
