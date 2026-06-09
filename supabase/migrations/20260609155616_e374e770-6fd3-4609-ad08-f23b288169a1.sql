@@ -1,0 +1,1 @@
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS webhook_url text NOT NULL DEFAULT '', ADD COLUMN IF NOT EXISTS notify_email text NOT NULL DEFAULT '';

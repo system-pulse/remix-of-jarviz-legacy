@@ -96,17 +96,23 @@ export type Database = {
         Row: {
           how_we_work: Json
           id: string
+          notify_email: string
           updated_at: string
+          webhook_url: string
         }
         Insert: {
           how_we_work?: Json
           id: string
+          notify_email?: string
           updated_at?: string
+          webhook_url?: string
         }
         Update: {
           how_we_work?: Json
           id?: string
+          notify_email?: string
           updated_at?: string
+          webhook_url?: string
         }
         Relationships: []
       }
