@@ -21,6 +21,7 @@ const FEATURES = [
 export function RestaurantSystems() {
   return (
     <section
+      id="restaurant"
       className="relative py-24 md:py-32"
       style={{ background: "#0a1a16" }}
     >
