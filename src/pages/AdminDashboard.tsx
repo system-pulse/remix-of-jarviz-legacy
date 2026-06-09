@@ -382,13 +382,20 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 /* ---------------- SETTINGS ---------------- */
 
 function SettingsManager() {
-  const { howWeWork, reload } = useSiteSettings();
+  const { howWeWork, webhookUrl, notifyEmail, reload } = useSiteSettings();
   const [items, setItems] = useState<HowWeWorkItem[]>([]);
+  const [webhook, setWebhook] = useState("");
+  const [email, setEmail] = useState("");
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     setItems(howWeWork);
   }, [howWeWork]);
+
+  useEffect(() => {
+    setWebhook(webhookUrl);
+    setEmail(notifyEmail);
+  }, [webhookUrl, notifyEmail]);
 
   const update = (i: number, patch: Partial<HowWeWorkItem>) =>
     setItems((arr) => arr.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
@@ -409,7 +416,13 @@ function SettingsManager() {
     const { error } = await supabase
       .from("site_settings")
       .upsert(
-        { id: "main", how_we_work: items as unknown as never, updated_at: new Date().toISOString() },
+        {
+          id: "main",
+          how_we_work: items as unknown as never,
+          webhook_url: webhook.trim(),
+          notify_email: email.trim(),
+          updated_at: new Date().toISOString(),
+        },
         { onConflict: "id" }
       );
     setSaving(false);
