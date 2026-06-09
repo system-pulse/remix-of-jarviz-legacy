@@ -42,13 +42,38 @@ export function Contact() {
       return;
     }
     setSubmitting(true);
-    const { error } = await supabase.from("contact_submissions").insert({
+    const payload = {
       name: parsed.data.name,
       email: parsed.data.email,
       phone: parsed.data.phone,
       project_type: parsed.data.type,
       message: parsed.data.message,
-    });
+    };
+    const { error } = await supabase.from("contact_submissions").insert(payload);
+    if (!error) {
+      // Fire-and-forget notification webhook (Google Apps Script etc.)
+      try {
+        const { data: settings } = await supabase
+          .from("site_settings")
+          .select("webhook_url, notify_email")
+          .eq("id", "main")
+          .maybeSingle();
+        const url = (settings as { webhook_url?: string } | null)?.webhook_url;
+        if (url) {
+          fetch(url, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              ...payload,
+              notify_email: (settings as { notify_email?: string }).notify_email || "",
+              submitted_at: new Date().toISOString(),
+              source: window.location.origin,
+            }),
+          }).catch(() => {});
+        }
+      } catch { /* ignore */ }
+    }
     setSubmitting(false);
     if (error) {
       toast({

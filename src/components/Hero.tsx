@@ -1,5 +1,6 @@
 import { ParticleField } from "./ParticleField";
 import { HexGrid } from "./HexGrid";
+import { HeroPanel } from "./HeroPanel";
 
 export function Hero() {
   const go = (id: string) =>
@@ -46,8 +47,8 @@ export function Hero() {
             className="mt-5 max-w-xl font-dm text-base text-text-muted md:text-lg animate-fade-up"
             style={{ animationDelay: "260ms" }}
           >
-            No jargon. Just high-performance websites, restaurant systems, and dashboards
-            that help you win more customers.
+            Beautifully crafted websites, smart restaurant systems, and custom dashboards —
+            built to attract customers and grow your business.
           </p>
 
           {/* CTAs */}
@@ -84,6 +85,13 @@ export function Hero() {
             <p className="font-mono text-[0.65rem] uppercase tracking-widest text-text-muted">
               Trusted by restaurants, universities &amp; startups
             </p>
+          </div>
+        </div>
+
+        {/* Floating arc-reactor panel — desktop only */}
+        <div className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 lg:block xl:right-10">
+          <div className="pointer-events-auto opacity-90">
+            <HeroPanel />
           </div>
         </div>
       </div>
