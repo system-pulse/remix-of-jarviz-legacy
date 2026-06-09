@@ -437,9 +437,9 @@ function SettingsManager() {
     <div>
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h2 className="font-syne text-3xl font-extrabold tracking-tight">How We Work</h2>
+          <h2 className="font-syne text-3xl font-extrabold tracking-tight">Site Settings</h2>
           <p className="mt-1 font-mono text-[0.65rem] tracking-widest text-text-muted">
-            Edits the HOW_WE_WORK.SYS panel in the About section
+            Email notifications, webhooks &amp; "How We Work" content
           </p>
         </div>
         <button
@@ -451,6 +451,36 @@ function SettingsManager() {
           <Save size={13} /> {saving ? "Saving…" : "Save Changes"}
         </button>
       </div>
+
+      {/* Notifications */}
+      <div className="mb-10 border border-white/[0.06] bg-bg-card p-5">
+        <h3 className="font-syne text-lg font-bold text-text-primary">Email Notifications</h3>
+        <p className="mt-1 font-mono text-[0.6rem] tracking-widest text-text-muted">
+          Paste your Google Apps Script Web App URL — new form submissions will be sent there and emailed to you.
+        </p>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <Field label="Notification Email">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className={inp}
+            />
+          </Field>
+          <Field label="Apps Script Web App URL">
+            <input
+              type="url"
+              value={webhook}
+              onChange={(e) => setWebhook(e.target.value)}
+              placeholder="https://script.google.com/macros/s/.../exec"
+              className={inp}
+            />
+          </Field>
+        </div>
+      </div>
+
+      <h3 className="mb-3 font-syne text-lg font-bold text-text-primary">How We Work</h3>
 
       <div className="space-y-3">
         {items.map((it, i) => (
